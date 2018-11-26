@@ -27,7 +27,6 @@ class ArbitraryCoder: Decoder {
 
 	static func generator<T: Decodable>() -> Gen<T> {
 		return Gen.compose { composer in
-//			print("Generating arbitrary decodable of type \(T.self) with \(composer)")
 			return try! T.init(from: ArbitraryCoder(composer: composer, codingPath: []))
 		}
 	}
@@ -175,6 +174,8 @@ where KeyType: CodingKey {
 	let codingPath: [CodingKey]
 	var arbitraryKeys: [Key]?
 	lazy var allKeys: [Key] = {
+		// NOTE: only used for dictionaries which iterate through the keys in this property
+		// Other Decodable types using keyed containers know the keys up front and access them directly
 		let arbitraryKeys =
 			String
 				.arbitrary
@@ -197,8 +198,26 @@ where KeyType: CodingKey {
 		return keys.contains { $0.stringValue == stringValue }
 	}
 
-	private func decode<T>(forKey key: ArbitraryKeyedDecodingContainer<KeyType>.Key, _ gen: Gen<T>) throws -> T? {
+	func decode<T>(forKey key: ArbitraryKeyedDecodingContainer<KeyType>.Key) -> T?
+		where T: Arbitrary {
+			return decode(forKey: key, T.arbitrary)
+	}
+
+	private func decode<T>(forKey key: ArbitraryKeyedDecodingContainer<KeyType>.Key, _ gen: Gen<T>) -> T? {
 		return contains(key) ? (composer.generate(using: gen) as T) : nil
+	}
+
+	func decodeOptional<T>(forKey key: ArbitraryKeyedDecodingContainer<KeyType>.Key) -> T?
+	where T: Arbitrary {
+		return decodeOptional(forKey: key, T.arbitrary)
+	}
+
+	private func decodeOptional<T>(forKey key: ArbitraryKeyedDecodingContainer<KeyType>.Key, _ gen: Gen<T>) -> T? {
+        let value = composer.generate(using: Gen.one(of: [
+			Gen<T?>.pure(nil),
+			gen.map { Optional($0) }
+		]))
+		return value
 	}
 
 	private func strictDecode<T: Arbitrary>(forKey key: ArbitraryKeyedDecodingContainer<KeyType>.Key) throws -> T {
@@ -206,17 +225,13 @@ where KeyType: CodingKey {
 	}
 
 	private func strictDecode<T>(forKey key: ArbitraryKeyedDecodingContainer<KeyType>.Key, _ gen: Gen<T>) throws -> T {
-		let path = (codingPath + [key]).reduce("") { (result, k) in result + k.stringValue }
-		print("Decoding \(T.self) \(path)")
-		guard let value = try decode(forKey: key, gen) else {
+		guard let value = decode(forKey: key, gen) else {
 			throw DecodingError.keyNotFound(
 				key,
 				DecodingError.Context(
 					codingPath: codingPath,
 					debugDescription: String(reflecting: self)))
 		}
-        print("Decoded \(value) for key \(path) with \(composer)")
-
 		return value
 	}
 
@@ -280,9 +295,68 @@ where KeyType: CodingKey {
 		return try strictDecode(forKey: key)
 	}
 
-	func decode<T>(_ type: T.Type, forKey key: ArbitraryKeyedDecodingContainer<KeyType>.Key) throws -> T
-	where T : Decodable {
+	func decode<T>(_ type: T.Type, forKey key: KeyType) throws -> T where T : Decodable {
 		return try strictDecode(forKey: key, T.arbitrary)
+	}
+
+	// NOTE: Must override the default implementation of decodeIfPresent since this is what's called for keys that might be missing,
+	// such as optional fields of structs.
+
+	func decodeIfPresent(_ type: Int.Type, forKey key: ArbitraryKeyedDecodingContainer<KeyType>.Key) throws -> Int? {
+		return decodeOptional(forKey: key)
+	}
+
+	func decodeIfPresent(_ type: Int8.Type, forKey key: ArbitraryKeyedDecodingContainer<KeyType>.Key) throws -> Int8? {
+		return decodeOptional(forKey: key)
+	}
+
+	func decodeIfPresent(_ type: UInt.Type, forKey key: ArbitraryKeyedDecodingContainer<KeyType>.Key) throws -> UInt? {
+		return decodeOptional(forKey: key)
+	}
+
+	func decodeIfPresent(_ type: Float.Type, forKey key: ArbitraryKeyedDecodingContainer<KeyType>.Key) throws -> Float? {
+		return decodeOptional(forKey: key)
+	}
+
+	func decodeIfPresent(_ type: Int16.Type, forKey key: ArbitraryKeyedDecodingContainer<KeyType>.Key) throws -> Int16? {
+		return decodeOptional(forKey: key)
+	}
+
+	func decodeIfPresent(_ type: Int32.Type, forKey key: ArbitraryKeyedDecodingContainer<KeyType>.Key) throws -> Int32? {
+		return decodeOptional(forKey: key)
+	}
+
+	func decodeIfPresent(_ type: Int64.Type, forKey key: ArbitraryKeyedDecodingContainer<KeyType>.Key) throws -> Int64? {
+		return decodeOptional(forKey: key)
+	}
+
+	func decodeIfPresent(_ type: UInt8.Type, forKey key: ArbitraryKeyedDecodingContainer<KeyType>.Key) throws -> UInt8? {
+		return decodeOptional(forKey: key)
+	}
+
+	func decodeIfPresent(_ type: Double.Type, forKey key: ArbitraryKeyedDecodingContainer<KeyType>.Key) throws -> Double? {
+		return decodeOptional(forKey: key)
+	}
+
+	func decodeIfPresent(_ type: String.Type, forKey key: ArbitraryKeyedDecodingContainer<KeyType>.Key) throws -> String? {
+		return decodeOptional(forKey: key)
+	}
+
+	func decodeIfPresent(_ type: UInt16.Type, forKey key: ArbitraryKeyedDecodingContainer<KeyType>.Key) throws -> UInt16? {
+		return decodeOptional(forKey: key)
+	}
+
+	func decodeIfPresent(_ type: UInt32.Type, forKey key: ArbitraryKeyedDecodingContainer<KeyType>.Key) throws -> UInt32? {
+		return decodeOptional(forKey: key)
+	}
+
+	func decodeIfPresent(_ type: UInt64.Type, forKey key: ArbitraryKeyedDecodingContainer<KeyType>.Key) throws -> UInt64? {
+		return decodeOptional(forKey: key)
+	}
+
+	func decodeIfPresent<T>(_ type: T.Type, forKey key: ArbitraryKeyedDecodingContainer<KeyType>.Key) throws -> T?
+	where T : Decodable {
+		return decodeOptional(forKey: key, T.arbitrary)
 	}
 
 	func nestedUnkeyedContainer(forKey key: ArbitraryKeyedDecodingContainer<KeyType>.Key) throws -> UnkeyedDecodingContainer {
