@@ -126,6 +126,10 @@
 		841408BB1B1A85A900BA2B6C /* SwiftCheck.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 84DF75F81B0BD54600C912B0 /* SwiftCheck.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		844FCC99198B320500EB242A /* SwiftCheck.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 844FCC8D198B320500EB242A /* SwiftCheck.framework */; };
 		84DF76031B0BD54600C912B0 /* SwiftCheck.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84DF75F81B0BD54600C912B0 /* SwiftCheck.framework */; };
+		BCE0261721AC468700B8F9A5 /* Decodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE0261621AC468700B8F9A5 /* Decodable.swift */; };
+		BCE0261A21AC4AAE00B8F9A5 /* DecodableSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE0261821AC4A9E00B8F9A5 /* DecodableSpec.swift */; };
+		BCE0261B21AC4AAE00B8F9A5 /* DecodableSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE0261821AC4A9E00B8F9A5 /* DecodableSpec.swift */; };
+		BCE0261C21AC4AAE00B8F9A5 /* DecodableSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE0261821AC4A9E00B8F9A5 /* DecodableSpec.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -224,6 +228,8 @@
 		844FCC98198B320500EB242A /* SwiftCheckTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SwiftCheckTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		84DF75F81B0BD54600C912B0 /* SwiftCheck.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SwiftCheck.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		84DF76021B0BD54600C912B0 /* SwiftCheck-iOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "SwiftCheck-iOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		BCE0261621AC468700B8F9A5 /* Decodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Decodable.swift; sourceTree = "<group>"; };
+		BCE0261821AC4A9E00B8F9A5 /* DecodableSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecodableSpec.swift; sourceTree = "<group>"; };
 		FA3C18581D9300EF003DEB10 /* CartesianSpec.swift.gyb */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CartesianSpec.swift.gyb; sourceTree = "<group>"; };
 		FAAB9E791D91B96C0097AC78 /* Cartesian.swift.gyb */ = {isa = PBXFileReference; lastKnownFileType = text; path = Cartesian.swift.gyb; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -305,6 +311,7 @@
 				6A761B841F14E91500A7D74F /* Test.swift */,
 				6A761B851F14E91500A7D74F /* Testable.swift */,
 				6A761B871F14E91500A7D74F /* WitnessedArbitrary.swift */,
+				BCE0261621AC468700B8F9A5 /* Decodable.swift */,
 			);
 			path = SwiftCheck;
 			sourceTree = "<group>";
@@ -328,6 +335,7 @@
 		6A761B8C1F14E91500A7D74F /* SwiftCheckTests */ = {
 			isa = PBXGroup;
 			children = (
+				BCE0261821AC4A9E00B8F9A5 /* DecodableSpec.swift */,
 				6A761B8D1F14E91500A7D74F /* BooleanIdentitySpec.swift */,
 				6A761B8E1F14E91500A7D74F /* CartesianSpec.swift */,
 				6A761B8F1F14E91500A7D74F /* ComplexSpec.swift */,
@@ -689,6 +697,7 @@
 				6A761BFB1F14E93B00A7D74F /* LambdaSpec.swift in Sources */,
 				6A761BFC1F14E93B00A7D74F /* ModifierSpec.swift in Sources */,
 				6A761BF91F14E93B00A7D74F /* FormatterSpec.swift in Sources */,
+				BCE0261A21AC4AAE00B8F9A5 /* DecodableSpec.swift in Sources */,
 				6A761BFA1F14E93B00A7D74F /* GenSpec.swift in Sources */,
 				6A761BF41F14E93B00A7D74F /* CartesianSpec.swift in Sources */,
 				6A761C011F14E93B00A7D74F /* ShrinkSpec.swift in Sources */,
@@ -715,6 +724,7 @@
 				6A761BA81F14E92100A7D74F /* Rose.swift in Sources */,
 				6A761BA11F14E92100A7D74F /* CoArbitrary.swift in Sources */,
 				6A761BA01F14E92100A7D74F /* Check.swift in Sources */,
+				BCE0261721AC468700B8F9A5 /* Decodable.swift in Sources */,
 				6A761BA21F14E92100A7D74F /* Compose.swift in Sources */,
 				6A761BA91F14E92100A7D74F /* State.swift in Sources */,
 			);
@@ -740,6 +750,7 @@
 				6A761BDC1F14E93900A7D74F /* PropertySpec.swift in Sources */,
 				6A761BDD1F14E93900A7D74F /* ReplaySpec.swift in Sources */,
 				6A761BD91F14E93900A7D74F /* LambdaSpec.swift in Sources */,
+				BCE0261B21AC4AAE00B8F9A5 /* DecodableSpec.swift in Sources */,
 				6A761BDA1F14E93900A7D74F /* ModifierSpec.swift in Sources */,
 				6A761BD71F14E93900A7D74F /* FormatterSpec.swift in Sources */,
 				6A761BD81F14E93900A7D74F /* GenSpec.swift in Sources */,
@@ -791,6 +802,7 @@
 				6A761BED1F14E93A00A7D74F /* PropertySpec.swift in Sources */,
 				6A761BEE1F14E93A00A7D74F /* ReplaySpec.swift in Sources */,
 				6A761BEA1F14E93A00A7D74F /* LambdaSpec.swift in Sources */,
+				BCE0261C21AC4AAE00B8F9A5 /* DecodableSpec.swift in Sources */,
 				6A761BEB1F14E93A00A7D74F /* ModifierSpec.swift in Sources */,
 				6A761BE81F14E93A00A7D74F /* FormatterSpec.swift in Sources */,
 				6A761BE91F14E93A00A7D74F /* GenSpec.swift in Sources */,

@@ -49,7 +49,7 @@ extension Gen {
 ///   Use `Gen.compose` instead.
 ///
 /// - seealso: Gen.compose
-public final class GenComposer {
+public final class GenComposer: CustomDebugStringConvertible {
 	private var stdgen : StdGen
 	private var size : Int
 	
@@ -85,5 +85,9 @@ public final class GenComposer {
 		let old = stdgen
 		stdgen = old.split.0
 		return old
+	}
+
+	public var debugDescription: String {
+		return "GenComposer[\(Unmanaged.passUnretained(self).toOpaque()) size=\(size), stdgen=\(stdgen)]"
 	}
 }
